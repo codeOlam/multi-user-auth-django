@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block accounts %}
+		<h3 style="text-align: center;">Login </h3>
+		<hr/>
+
+
+{% if form.errors %}
+<p>Please Fill the Required field and follow the instructions for pasword.</p>
+{% endif %}
+
+
+	<form method="post" action="{% url 'login' %}">
+	{% csrf_token %}
+	  <div class="form-group">
+	    <label for="email">Username</label>
+	    {{form.username}}
+	    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+	  </div>
+	  <div class="form-group">
+	    <label for="password1">Password</label>
+	    {{form.password}}
+	  </div>
+	  <button type="submit" class="btn btn-primary btn-lg">Login</button>
+	  <p>Or Create an Account <a href="{% url 'accounts:signup' %}"> here </a>, to continue.</p>
+	</form> 
+
+{% endblock %}

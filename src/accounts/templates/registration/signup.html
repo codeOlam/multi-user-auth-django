@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block accounts %}
+	<div>
+		<div class="card" style="width: 20rem; text-align: center;">
+			<div class="card" style="width: 20rem; text-align: center;">
+	  			<div class="card-body">
+	    			<h5 class="card-title">SignUp</h5>
+	    			<h6 class="card-subtitle mb-2 text-muted">Who do you want to sign up as </h6>
+	    			<p class="card-text">Chose which user to sign up as</p>
+	    			<a href="{% url 'accounts:um1_signup' %}" class="card-link btn btn-primary">UserModel1</a>
+	    			<a href="#" class="card-link btn btn-primary">UserModel2</a>
+	  			</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+
+
+
