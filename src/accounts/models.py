@@ -105,12 +105,13 @@ class CustomUserModel(AbstractBaseUser):
 
 @receiver(pre_save, sender=CustomUserModel)
 def gen_slug(sender, instance, **kwargs):
-	instance.slug = slugify(instance.username+'_'+gen_str)
+    t = 'um1'
+    instance.slug = slugify(instance.username+'_'+t)
 
 
 
 class UserModel1(models.Model):
-    user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, primary_key=True)
+    user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, null=True, blank=True)
     exec_postion	= models.CharField(max_length=50, blank=False, null=False)
     level 			= models.PositiveIntegerField()
 
@@ -120,6 +121,6 @@ class UserModel1(models.Model):
 
 
 class UserModel2(models.Model):
-	user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, primary_key=True)
+	user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, null=True, blank=True)
 	qualification	= models.CharField(max_length=50, blank=False, null=False)
 	appointment		= models.CharField(max_length=50, blank=False, null=False)

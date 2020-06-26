@@ -35,6 +35,7 @@ class UpdateUm1View(UpdateView):
 	def post(self, request, *args, **kwargs):
 		# getting objects of models
 		cum_id 			= self.get_object().u_id
+		# um1_obj 		= self.um1_model.objects.filter(user_id=cum_id).first()
 		um1_obj 		= self.um1_model.objects.filter(user_id=cum_id).first()
 
 		# getting forms
