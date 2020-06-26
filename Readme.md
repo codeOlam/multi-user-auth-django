@@ -26,7 +26,7 @@ This app features the following:
 
 ## Installations
 1. [installing Python3](https://www.python.org/downloads/)
-2. [installing Django 2.2](https://docs.djangoproject.com/en/2.2/topics/install/)
+2. [installing Django 3.0](https://docs.djangoproject.com/en/3.0/topics/install/)
 3. [installing Virtualenv](https://www.geeksforgeeks.org/creating-python-virtual-environment-windows-linux/)
 5. installing requirements from requirements.txt. After activating vitualenv run:
 
@@ -56,7 +56,7 @@ This app features the following:
 
 
 ## Resources
-1. [Django 2.2.3 Doc](https://docs.djangoproject.com/en/2.2/)
+1. [Django 3.x Doc](https://docs.djangoproject.com/en/3.0/)
 2. [Medium blog](https://medium.com/@sowmendipta/creating-multiple-user-types-and-implementing-login-signup-with-email-instead-of-username-in-django-63a47be0e1af)
 3. [BoTree](https://medium.com/@sowmendipta/creating-multiple-user-types-and-implementing-login-signup-with-email-instead-of-username-in-django-63a47be0e1af)
 4. [SPRINGMEBLOG](http://springmeblog.com/2018/how-to-implement-multiple-user-types-with-django/)
