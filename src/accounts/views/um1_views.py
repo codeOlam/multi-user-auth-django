@@ -14,8 +14,7 @@ class SignUpUm1View(CreateView):
 	template_name 		= 'registration/um1_signup.html'
 	slug_field 			= 'slug'
 	slug_url_kwargs 	= 'slug'
-	success_url 		= reverse_lazy('accounts:profile')
-
+	success_url 		= reverse_lazy('login')
 
 
 class UpdateUm1View(UpdateView):
@@ -49,7 +48,7 @@ class UpdateUm1View(UpdateView):
 			um1_form 	= um1_form.save(commit=False)
 			um1_form.save()
 			
-			return HttpResponseRedirect(reverse_lazy('accounts:profile'))
+			return HttpResponseRedirect(reverse_lazy(self.get_success_url()))
 		else:
 			context = self.get_context_data(**kwargs)
 			return TemplateResponse(request, self.template_name, context)
@@ -62,3 +61,6 @@ class UpdateUm1View(UpdateView):
 		context['cum_form'] = self.form_class(instance=self.get_object())
 		context['um1_form'] = self.um1_form_class(instance=um1_obj)
 		return context
+
+	def get_success_url(self):
+		return reverse('accounts:profile', kwargs={'slug': self.kwargs.get('slug')})
