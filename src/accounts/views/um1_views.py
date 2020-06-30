@@ -42,14 +42,25 @@ class UpdateUm1View(UpdateView):
 		cum_form 		= self.form_class(request.POST, instance=self.get_object())
 		um1_form 		= self.um1_form_class(request.POST, instance=um1_obj)
 
-		#process forms
+
 		if cum_form.is_valid() and um1_form.is_valid():
-			cum_form 	= cum_form.save(commit=False)
-			cum_form.save()
-			um1_form 	= um1_form.save(commit=False)
-			um1_form.save()
+			cum_instance 				= cum_form.save(commit=False)
+			cum_form 					= cum_instance.save()
+
+			#For form UM1 form handling
+			um1_instance 				= um1_form.save(commit=False)
+			#get cleaned data from the POST form
+			um1_cleaned_exec 			= um1_form.cleaned_data['exec_postion']
+			um1_cleaned_level 			= um1_form.cleaned_data['level']
+			#save update model
+			um1_instance.exec_postion 	= um1_cleaned_exec
+			um1_instance.level 			= um1_cleaned_level
+			#save data to db
+			um1_instance.user 			= cum_instance
+			um1_instance.save()
 			
-			return HttpResponseRedirect(reverse_lazy(self.get_success_url()))
+			# return HttpResponseRedirect(reverse_lazy(self.get_success_url()))
+			return HttpResponseRedirect('/')
 		else:
 			context = self.get_context_data(**kwargs)
 			return TemplateResponse(request, self.template_name, context)

@@ -111,7 +111,7 @@ def gen_slug(sender, instance, **kwargs):
 
 
 class UserModel1(models.Model):
-    user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, null=True, blank=True)
+    user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, related_name='um1_cum')
     exec_postion	= models.CharField(max_length=50, blank=False, null=False)
     level 			= models.PositiveIntegerField()
 
@@ -121,6 +121,6 @@ class UserModel1(models.Model):
 
 
 class UserModel2(models.Model):
-	user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, null=True, blank=True)
+	user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, related_name='um2_cum')
 	qualification	= models.CharField(max_length=50, blank=False, null=False)
 	appointment		= models.CharField(max_length=50, blank=False, null=False)
