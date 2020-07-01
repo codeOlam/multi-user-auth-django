@@ -36,7 +36,7 @@ class CustomUserManager(BaseUserManager):
 
         now = timezone.now()
         user    = self.model(
-                        email=email,
+                        email=self.normalize_email(email),
                         date_joined=now,
                         last_login=now,
                         **extra_fields
@@ -47,13 +47,12 @@ class CustomUserManager(BaseUserManager):
         return user
     
     
-    def create_superuser(self, email, username, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         """
         Creates and saves superuser
         """
         user = self.model(
                           email = email,
-                          username=username,
                           **extra_fields                         
                           )
         user.set_password(password)
@@ -81,8 +80,9 @@ class CustomUserModel(AbstractBaseUser):
 
     objects = CustomUserManager()
 
-    REQUIRED_FIELDS = ['email']
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'   
+    REQUIRED_FIELDS = []
 
     class Meta:
         app_label = "accounts"
@@ -99,8 +99,8 @@ class CustomUserModel(AbstractBaseUser):
         #User have permission to view app label
         return True
 
-    def get_absolute_url(self):
-        return reverse('accounts:profile', kwargs={'slug': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse('accounts:user_profile', kwargs={'slug': self.slug})
 
 
 @receiver(pre_save, sender=CustomUserModel)
