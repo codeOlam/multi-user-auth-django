@@ -10,6 +10,7 @@ urlpatterns = [
     path('signup/um1_signup/', SignUpUm1View.as_view(), name='um1_signup'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html')),
     path('logout/', auth_views.LogoutView.as_view()),
+    path('change-password/', auth_views.PasswordChangeView.as_view()),
     path('<slug>/um1_update_profile/', UpdateUm1View.as_view(), name='um1_update_profile' ),
     path('<slug>/', Profile.as_view(), name='profile'),
 

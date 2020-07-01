@@ -22,8 +22,8 @@ class UpdateUm1View(UpdateView):
 	um1_model 			= UserModel1
 	form_class 			= CustomeUserUpdateForm
 	um1_form_class 		= UM1ChangeForm
-	slug_field 			= 'slug'
-	slug_url_kwargs 	= 'slug'
+	# slug_field 			= 'slug'
+	# slug_url_kwargs 	= 'slug'
 	template_name 		= 'accounts/um1_update.html'
 
 
