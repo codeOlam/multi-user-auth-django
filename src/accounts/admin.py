@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import UserTypeA, UserTypeB, Users
 from accounts.forms.uta_forms import UTACreationForm, UTAChangeForm, UserUpdateForm
+from accounts.forms.utb_forms import UTBChangeForm
 # Register your models here.
 
 class UsersAdmin(BaseUserAdmin):
@@ -30,17 +31,14 @@ class UsersAdmin(BaseUserAdmin):
         }),
     )
     search_fields = ('email',)
-    ordering = ('email',)
+    ordering = ('date_joined',)
     filter_horizontal = ()
 
 
 class UserTypeAAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
     form = UTAChangeForm
-
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
+    
     list_display = ('exec_postion', 'level')
     list_filter = ('level',)
     fieldsets = (
@@ -54,11 +52,8 @@ class UserTypeAAdmin(admin.ModelAdmin):
 
 class UserTypeBAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
-    form = UTAChangeForm
+    form = UTBChangeForm
 
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
     list_display = ('qualification', 'appointment')
     list_filter = ('appointment',)
     fieldsets = (

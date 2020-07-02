@@ -52,7 +52,7 @@ class Users(AbstractBaseUser):
     username 		= models.CharField(max_length=15, help_text='A public user name', blank=True, null=True)
     first_name      = models.CharField(max_length=50, blank=False, null=False)
     last_name       = models.CharField(max_length=50, blank=False, null=False)
-    date_joined     = datetime.datetime.now()
+    date_joined     = models.DateTimeField('Date Joined', auto_now_add=True, null=True)
     is_admin 		= models.BooleanField(default=False)
     is_staff        = models.BooleanField(default=False)
     is_usertype_a	= models.BooleanField(default=False)
@@ -85,8 +85,8 @@ class Users(AbstractBaseUser):
         #User have permission to view app label
         return True
 
-    def get_absolute_url(self):
-        return reverse('accounts:uta_profile', kwargs={'pk': self.u_id})
+    # def get_absolute_url(self):
+    #     return reverse('accounts:uta_profile', kwargs={'pk': self.u_id})
 
 
 

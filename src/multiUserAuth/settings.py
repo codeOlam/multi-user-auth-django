@@ -107,7 +107,7 @@ LANGUAGE_CODE = 'en-us'
 try:
     TIME_ZONE = 'Africa/Lagos'
 except:
-    TIME_ZONE = 'UTC'
+    TIME_ZONE = 'UTC+1'
 
 USE_I18N = True
 
