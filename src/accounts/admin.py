@@ -2,24 +2,24 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import UserModel1, UserModel2, CustomUserModel
-from accounts.forms.um1_forms import UM1CreationForm, UM1ChangeForm, CustomeUserUpdateForm
+from .models import UserTypeA, UserTypeB, Users
+from accounts.forms.uta_forms import UTACreationForm, UTAChangeForm, UserUpdateForm
 # Register your models here.
 
-class UserAdmin(BaseUserAdmin):
+class UsersAdmin(BaseUserAdmin):
     # The forms to add and change user instances
-    form = CustomeUserUpdateForm
-    add_form = UM1CreationForm
+    form = UserUpdateForm
+    add_form = UTACreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'date_joined', 'is_admin', 'is_usermodel1', 'is_usermodel2')
-    list_filter = ('is_admin', 'is_usermodel2', 'is_usermodel1')
+    list_display = ('email', 'date_joined', 'is_admin', 'is_usertype_a', 'is_usertype_b')
+    list_filter = ('is_admin', 'is_usertype_b', 'is_usertype_a')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('username', 'first_name', 'last_name', 'slug')}),
-        ('Permissions', {'fields': ('is_admin', 'is_active', 'is_staff', 'is_usermodel1', 'is_usermodel2')}),
+        ('Personal info', {'fields': ('username', 'first_name', 'last_name',)}),
+        ('Permissions', {'fields': ('is_admin', 'is_active', 'is_staff', 'is_usertype_a', 'is_usertype_b')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
@@ -34,9 +34,9 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-class UserModel1Admin(admin.ModelAdmin):
+class UserTypeAAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
-    form = UM1ChangeForm
+    form = UTAChangeForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -52,9 +52,9 @@ class UserModel1Admin(admin.ModelAdmin):
     filter_horizontal = ()
 
 
-class UserModel2Admin(admin.ModelAdmin):
+class UserTypeBAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
-    form = UM1ChangeForm
+    form = UTAChangeForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -71,9 +71,9 @@ class UserModel2Admin(admin.ModelAdmin):
 
 
 # Now register the new UserAdmin...
-admin.site.register(CustomUserModel, UserAdmin)
+admin.site.register(Users, UsersAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
-admin.site.register(UserModel1, UserModel1Admin)
-admin.site.register(UserModel2, UserModel2Admin)
+admin.site.register(UserTypeA, UserTypeAAdmin)
+admin.site.register(UserTypeB, UserTypeBAdmin)

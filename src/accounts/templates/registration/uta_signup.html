@@ -11,7 +11,7 @@
 {% endif %}
 
 
-	<form method="post" action="{% url 'accounts:um1_signup' %}">
+	<form method="post" action="{% url 'accounts:uta_signup' %}">
 	{% csrf_token %}
 	  <div class="form-group">
 	    <label for="email">{{form.email.label_tag}}</label>
@@ -26,12 +26,6 @@
 	    <label for="password2">{{form.password2.label_tag}}</label>
 	    {{form.password2}}
 	  </div>
-	  {% comment %}
-	  <div class="form-group">
-	    <label for="is_usermodel1">is_usermodel1</label>
-	    {{form.is_usermodel1}}
-	  </div>
-	  {% endcomment %}
 	  <button type="submit" class="btn btn-primary">Sign Up</button>
 	  <p>Or <a href="{% url 'login' %}">Login</a>, to continue.</p>
 	</form> 

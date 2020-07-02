@@ -19,7 +19,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
 
-from accounts.views.signup_views import SignUpView
+from accounts.views.views_ import SignUpView
 
 
 urlpatterns = [

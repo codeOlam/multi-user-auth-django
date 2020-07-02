@@ -5,37 +5,56 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 
-from accounts.models import CustomUserModel, UserModel1
-from accounts.forms.um1_forms import UM1CreationForm, UM1ChangeForm, CustomeUserUpdateForm
+from accounts.models import Users, UserTypeA
+from accounts.forms.uta_forms import UTACreationForm, UTAChangeForm, UserUpdateForm
 
 
-class SignUpUm1View(CreateView):
-	form_class			= UM1CreationForm
-	template_name 		= 'registration/um1_signup.html'
-	slug_field 			= 'slug'
-	slug_url_kwargs 	= 'slug'
+class SignUpUTAView(CreateView):
+	form_class			= UTACreationForm
+	template_name 		= 'registration/uta_signup.html'
 	success_url 		= reverse_lazy('login')
 
 
-class UpdateUm1View(UpdateView):
-	model 				= CustomUserModel
-	um1_model 			= UserModel1
-	form_class 			= CustomeUserUpdateForm
-	um1_form_class 		= UM1ChangeForm
-	# slug_field 			= 'slug'
-	# slug_url_kwargs 	= 'slug'
-	template_name 		= 'accounts/um1_update.html'
+class UTAProfile(DetailView):
+	model 				= Users
+	context_object_name = 'profile'
+	template_name 		= 'accounts/uta_profile.html'
+
+
+	def get_context_data(self, **kwargs):
+		context 	= super().get_context_data(**kwargs)
+
+		#Dynamically get u_id for logged in user
+		u_u_id 		= self.kwargs.get('pk')
+		#Get all the object for the logged in user
+		obj 		= Users.objects.get(u_id=u_u_id)
+		# to get user id 
+		get_id 		= obj.u_id
+		#to get the extra added objects
+		um1_extra_obj 		= UserTypeA.objects.filter(user_id=get_id)
+
+		context['um1_extra_obj'] = um1_extra_obj
+
+
+		return context
+
+
+class UpdateUTAView(UpdateView):
+	model 				= Users
+	um1_model 			= UserTypeA
+	form_class 			= UserUpdateForm
+	um1_form_class 		= UTAChangeForm
+	template_name 		= 'accounts/uta_update.html'
 
 
 	def get_object(self, queryset=None):
-		cum_obj 		= self.model.objects.get(slug=self.kwargs.get('slug'))
+		cum_obj 		= self.model.objects.get(u_id=self.kwargs.get('pk'))
 		return cum_obj
 
 
 	def post(self, request, *args, **kwargs):
 		# getting objects of models
 		cum_id 			= self.get_object().u_id
-		# um1_obj 		= self.um1_model.objects.filter(user_id=cum_id).first()
 		um1_obj 		= self.um1_model.objects.filter(user_id=cum_id).first()
 
 		# getting forms
@@ -75,4 +94,4 @@ class UpdateUm1View(UpdateView):
 		return context
 
 	def get_success_url(self):
-		return reverse('accounts:profile', kwargs={'slug': self.kwargs.get('slug')})
+		return reverse('accounts:uta_profile', kwargs={'pk': self.kwargs.get('pk')})

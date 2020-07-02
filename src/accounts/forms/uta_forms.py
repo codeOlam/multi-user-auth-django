@@ -2,18 +2,18 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from accounts.models import CustomUserModel, UserModel1
+from accounts.models import Users, UserTypeA
 
 
-class UM1CreationForm(UserCreationForm):
+class UTACreationForm(UserCreationForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-    	model 				= CustomUserModel
-    	fields 				= ('email', 'is_usermodel1', 'password1', 'password2')
+    	model 				= Users
+    	fields 				= ('email', 'is_usertype_a', 'password1', 'password2')
 
 
 
@@ -26,10 +26,10 @@ class UM1CreationForm(UserCreationForm):
         return password2
 
 
-    def clean_is_usermodel1(self):
-    	is_usermodel1 = self.cleaned_data.get('is_usermodel1')
-    	is_usermodel1=True
-    	return is_usermodel1
+    def clean_is_usertype_a(self):
+    	is_usertype_a = self.cleaned_data.get('is_usertype_a')
+    	is_usertype_a=True
+    	return is_usertype_a
 
 
     def save(self, commit=True):
@@ -41,18 +41,18 @@ class UM1CreationForm(UserCreationForm):
         return user
 
 
-class CustomeUserUpdateForm(UserChangeForm):
+class UserUpdateForm(UserChangeForm):
 	password = ReadOnlyPasswordHashField()
 	class Meta:
-		model 				= CustomUserModel
+		model 				= Users
 		fields 				= ['username', 'first_name', 'last_name']
 
 
-	def clean_password(self):
-		# Regardless of what the user provides, return the initial value.
-		return self.initial["password"]
+	# def clean_password(self):
+	# 	# Regardless of what the user provides, return the initial value.
+	# 	return self.initial["password"]
 
-class UM1ChangeForm(UserChangeForm):
+class UTAChangeForm(UserChangeForm):
 	class Meta:
-		model 				= UserModel1
+		model 				= UserTypeA
 		fields 				= ['exec_postion', 'level']

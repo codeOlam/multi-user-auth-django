@@ -1,29 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
 from django.urls import reverse
-from django.shortcuts import redirect
 import datetime
 from django.utils import timezone
-import string
-import random
 
 
 
-def randomStrDig(strlen=4):
-	"""
-		Convenience methods to autogenerate string
-	"""
-	alpha_num 	= string.ascii_letters + string.digits
-
-	return ''.join(random.choice(alpha_num) for i in range(strlen)).lower()
-
-gen_str = randomStrDig()
-
-
-class CustomUserManager(BaseUserManager):
+class UserManager(BaseUserManager):
     use_in_migrations = True
 
     
@@ -63,22 +46,21 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class CustomUserModel(AbstractBaseUser):
+class Users(AbstractBaseUser):
     u_id 		    = models.AutoField(primary_key=True, blank=True)      
     email 			= models.EmailField(max_length=127, unique=True, null=False, blank=False)
-    username 		= models.CharField(max_length=15, help_text='A public user name', unique=True, blank=False, null=False)
+    username 		= models.CharField(max_length=15, help_text='A public user name', blank=True, null=True)
     first_name      = models.CharField(max_length=50, blank=False, null=False)
     last_name       = models.CharField(max_length=50, blank=False, null=False)
-    slug			= models.SlugField(unique=True, null=True, blank=True)
     date_joined     = datetime.datetime.now()
     is_admin 		= models.BooleanField(default=False)
     is_staff        = models.BooleanField(default=False)
-    is_usermodel1	= models.BooleanField(default=False)
-    is_usermodel2	= models.BooleanField(default=False)
+    is_usertype_a	= models.BooleanField(default=False)
+    is_usertype_b	= models.BooleanField(default=False)
     is_active 		= models.BooleanField(default=True)
     
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'   
@@ -87,6 +69,10 @@ class CustomUserModel(AbstractBaseUser):
     class Meta:
         app_label = "accounts"
         db_table = "users"
+        verbose_name = 'Users Account'
+        verbose_name_plural = 'Users Account'
+
+
 
     def __str__(self):
         return self.email
@@ -99,28 +85,31 @@ class CustomUserModel(AbstractBaseUser):
         #User have permission to view app label
         return True
 
-    # def get_absolute_url(self):
-    #     return reverse('accounts:user_profile', kwargs={'slug': self.slug})
-
-
-@receiver(pre_save, sender=CustomUserModel)
-def gen_slug(sender, instance, **kwargs):
-    t = 'um1'
-    instance.slug = slugify(instance.username+'_'+t)
+    def get_absolute_url(self):
+        return reverse('accounts:uta_profile', kwargs={'pk': self.u_id})
 
 
 
-class UserModel1(models.Model):
-    user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, related_name='um1_cum')
+class UserTypeA(models.Model):
+    user 			= models.OneToOneField(Users, on_delete=models.CASCADE, related_name='user_type_a')
     exec_postion	= models.CharField(max_length=50, blank=False, null=False)
     level 			= models.PositiveIntegerField()
 
     def __str__(self):
-        return self.exec_postion 
+        return self.exec_postion
+
+    class Meta:
+        verbose_name = 'Users Type A Account'
+        verbose_name_plural = 'Users Type A Account' 
 
 
 
-class UserModel2(models.Model):
-	user 			= models.OneToOneField(CustomUserModel, on_delete=models.CASCADE, related_name='um2_cum')
-	qualification	= models.CharField(max_length=50, blank=False, null=False)
-	appointment		= models.CharField(max_length=50, blank=False, null=False)
+class UserTypeB(models.Model):
+    user 			= models.OneToOneField(Users, on_delete=models.CASCADE, related_name='user_type_b')
+    qualification	= models.CharField(max_length=50, blank=False, null=False)
+    appointment		= models.CharField(max_length=50, blank=False, null=False)
+
+
+    class Meta:
+        verbose_name = 'Users Type B Accont'
+        verbose_name_plural = 'Users Type B Account'
