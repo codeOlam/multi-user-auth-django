@@ -5,8 +5,12 @@
     <li class="breadcrumb-item"><a href="{% url 'login' %}">Login</a></li>
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'accounts:signup' %}">Signup</a></li></li>
     {% endif %}
-    {% if request.user.is_authenticated %}
-    <li class="breadcrumb-item"><a href="/accounts/{{user.pk}}">User Account</a></li></li>
+    {% if request.user.is_authenticated and request.user.is_usertype_a %}
+    <li class="breadcrumb-item"><a href="/accounts/uta/{{user.pk}}">User Account</a></li></li>
+    <li class="breadcrumb-item"><a href="{% url 'logout' %}">Logout</a></li></li>
+    {% endif %}
+    {% if request.user.is_authenticated and request.user.is_usertype_b %}
+    <li class="breadcrumb-item"><a href="/accounts/utb/{{user.pk}}">User Account</a></li></li>
     <li class="breadcrumb-item"><a href="{% url 'logout' %}">Logout</a></li></li>
     {% endif %}
   </ol>

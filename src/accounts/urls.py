@@ -13,9 +13,9 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html')),
     path('logout/', auth_views.LogoutView.as_view()),
     path('change-password/', auth_views.PasswordChangeView.as_view()),
-    path('<pk>/uta_update_profile/', UpdateUTAView.as_view(), name='uta_update_profile' ),
-    path('<pk>/utb_update_profile/', UpdateUTBView.as_view(), name='utb_update_profile' ),
-    path('<pk>/', UTAProfile.as_view(), name='uta_profile'),
-    path('<pk>/', UTBProfile.as_view(), name='utb_profile'),
+    path('uta/<pk>/uta_update_profile/', UpdateUTAView.as_view(), name='uta_update_profile' ),
+    path('utb/<pk>/utb_update_profile/', UpdateUTBView.as_view(), name='utb_update_profile' ),
+    path('uta/<pk>/', UTAProfile.as_view(), name='uta_profile'),
+    path('utb/<pk>/', UTBProfile.as_view(), name='utb_profile'),
 
 ]
