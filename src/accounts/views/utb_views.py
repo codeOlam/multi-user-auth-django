@@ -69,8 +69,8 @@ class UpdateUTBView(UpdateView):
 			#For form UM1 form handling
 			um1_instance 				= um1_form.save(commit=False)
 			#get cleaned data from the POST form
-			um1_cleaned_exec 			= um1_form.cleaned_data['exec_postion']
-			um1_cleaned_level 			= um1_form.cleaned_data['level']
+			um1_cleaned_exec 			= um1_form.cleaned_data['qualification']
+			um1_cleaned_level 			= um1_form.cleaned_data['appointment']
 			#save update model
 			um1_instance.exec_postion 	= um1_cleaned_exec
 			um1_instance.level 			= um1_cleaned_level
