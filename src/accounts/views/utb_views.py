@@ -2,8 +2,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView, TemplateView
 from django.urls import reverse_lazy, reverse 
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from accounts.models import Users, UserTypeB
 from accounts.forms.utb_forms import UTBCreationForm, UTBChangeForm, UserUpdateForm
@@ -15,10 +16,17 @@ class SignUpUTBView(CreateView):
 	success_url 		= reverse_lazy('login')
 
 
-class UTBProfile(DetailView):
+class UTBProfile(UserPassesTestMixin, DetailView):
 	model 				= Users
 	context_object_name = 'profile'
 	template_name 		= 'accounts/utb_profile.html'
+
+	#Handling Authorization
+	raise_exception 	= True
+	login_url 			= reverse_lazy('login')
+
+	def test_func(self):
+		return self.request.user.is_authenticated and self.request.user.is_usertype_b
 
 
 	def get_context_data(self, **kwargs):
@@ -39,12 +47,19 @@ class UTBProfile(DetailView):
 		return context
 
 
-class UpdateUTBView(UpdateView):
+class UpdateUTBView(UserPassesTestMixin, UpdateView):
 	model 				= Users
 	um1_model 			= UserTypeB
 	form_class 			= UserUpdateForm
 	um1_form_class 		= UTBChangeForm
 	template_name 		= 'accounts/utb_update.html'
+
+	#Authorization handling
+	raise_exception 	= True
+	login_url			= reverse_lazy('login')
+
+	def test_func(self):
+		return self.request.user.is_authenticated and self.request.user.is_usertype_b
 
 
 	def get_object(self, queryset=None):

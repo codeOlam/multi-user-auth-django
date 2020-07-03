@@ -4,6 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from accounts.models import Users, UserTypeA
 from accounts.forms.uta_forms import UTACreationForm, UTAChangeForm, UserUpdateForm
@@ -15,10 +16,19 @@ class SignUpUTAView(CreateView):
 	success_url 		= reverse_lazy('login')
 
 
-class UTAProfile(DetailView):
+class UTAProfile(UserPassesTestMixin, DetailView):
 	model 				= Users
 	context_object_name = 'profile'
 	template_name 		= 'accounts/uta_profile.html'
+
+	#Permission handling
+	raise_exception 	= False
+	permission_denied_message = 'You must be logged in as user type A to view page.'
+	login_url			 = reverse_lazy('login')
+
+
+	def test_func(self):
+		return self.request.user.is_authenticated and self.request.user.is_usertype_a
 
 
 	def get_context_data(self, **kwargs):
@@ -39,12 +49,19 @@ class UTAProfile(DetailView):
 		return context
 
 
-class UpdateUTAView(UpdateView):
+class UpdateUTAView(UserPassesTestMixin, UpdateView):
 	model 				= Users
 	um1_model 			= UserTypeA
 	form_class 			= UserUpdateForm
 	um1_form_class 		= UTAChangeForm
 	template_name 		= 'accounts/uta_update.html'
+
+	#Permission Handling
+	raise_exception 	= True
+	login_url 			= reverse_lazy('login')
+
+	def test_func(self):
+		return self.request.user.is_authenticated and self.request.user.is_usertype_a
 
 
 	def get_object(self, queryset=None):
