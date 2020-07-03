@@ -1,9 +1,4 @@
-![Django Logo](https://cdn0.froala.com/assets/editor/pages/B/frameworks/large/django-54a8740593da0031831666b94c418bc9.jpg)
-
-
-## SreenShots
-
-
+![Django Logo](/src/django-banner.jpg)
 
 
 
@@ -13,10 +8,16 @@ Django is a web-framework written in Python and runs the backend for many of the
 
 This app features the following:
 
--- 
+-- CreateUser Type A or B at signup
 
 
---
+-- Login 
+
+
+-- Very basic profile dashboard
+
+
+-- simple permission to restrict unauthenticate users and unauthorized access
 
 
 ## Technology and Requirements
@@ -51,7 +52,7 @@ This app features the following:
 3. go to your web browser and enter 127.0.0.1:8000 
 
 ## Recommendations
-
+Still alot to be done with the app, but you could clone the app, edit the code and use on your own app as you see fit.
  
 
 
